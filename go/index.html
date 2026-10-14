@@ -112,6 +112,12 @@ h2{font-size:clamp(28px,4.4vw,42px);line-height:1.08;letter-spacing:-.8px;margin
 .stars{color:var(--gold);font-size:26px;letter-spacing:6px;margin-bottom:6px}
 .rev .acts{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px}
 .fsoc{display:flex;gap:18px;justify-content:center;margin:8px 0}
+
+.greet{position:fixed;right:20px;bottom:92px;z-index:2147483000;max-width:260px;background:#111721;color:var(--text);border:1px solid var(--gold);border-radius:16px 16px 4px 16px;padding:14px 34px 14px 14px;font-size:15px;line-height:1.4;box-shadow:0 14px 34px -12px #000;cursor:pointer;opacity:0;transform:translateY(8px);transition:opacity .4s,transform .4s;pointer-events:none}
+.greet.on{opacity:1;transform:none;pointer-events:auto}
+.greet b{color:var(--gold2)}
+.greet button{position:absolute;top:4px;right:6px;width:28px;height:28px;border:0;background:transparent;color:var(--mute);font-size:20px;line-height:1;cursor:pointer}
+@media(max-width:420px){.greet{right:12px;max-width:220px}}
 footer{border-top:1px solid var(--line);margin-top:26px;padding:22px 0 80px;color:var(--mute);font-size:14px;text-align:center}
 footer p{margin:6px 0}
 footer a{text-decoration:none;color:#c5cedb}
@@ -355,6 +361,18 @@ footer a:hover{color:var(--gold2)}
     },3500);
   });
   if(location.hash==='#start'){requestAnimationFrame(function(){start.scrollIntoView({behavior:'auto',block:'start'});});}
+})();
+</script>
+<div class="greet" id="greet" role="status" aria-live="polite"><button type="button" id="greetX" aria-label="Dismiss">&times;</button><b>Hi, I'm Yolande's assistant.</b><br>Questions about taxes, credit coaching or notary? Ask me here.</div>
+<script>
+(function(){
+  var g=document.getElementById('greet'),x=document.getElementById('greetX');
+  try{if(sessionStorage.getItem('bstGreet')==='1')return;}catch(e){}
+  function hide(){g.classList.remove('on');try{sessionStorage.setItem('bstGreet','1')}catch(e){}}
+  setTimeout(function(){g.classList.add('on');},4000);
+  setTimeout(function(){g.classList.remove('on');},20000);
+  x.addEventListener('click',function(e){e.stopPropagation();hide();});
+  g.addEventListener('click',function(){hide();var b=document.getElementById('ultra-fast-widget-bubble-56590063')||document.querySelector('[id^="ultra-fast-widget-bubble"]');if(b)b.click();});
 })();
 </script>
 <script src="https://app.calldirector.ai/widget.js" data-widget="56590063" async></script>
