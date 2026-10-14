@@ -66,3 +66,11 @@ details p{color:var(--mute);padding:0 0 14px;font-size:15.5px}
 @media(max-width:900px){.g4{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:860px){.cols{grid-template-columns:1fr}}
 @media(max-width:760px){.g4{grid-template-columns:1fr}.check{columns:1}.hero-s{padding:24px 0 16px}}
+.about-grid{display:grid;grid-template-columns:300px 1fr;gap:32px;align-items:center;max-width:960px}
+.portrait{margin:0;text-align:center}
+.portrait img{width:100%;height:auto;display:block;border-radius:18px;border:2px solid var(--gold);box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.portrait figcaption{margin-top:10px}
+.portrait figcaption b{display:block;font-size:18px}
+.portrait figcaption span{color:var(--gold);font-size:14px;letter-spacing:.04em}
+.about-grid .story{margin:0}
+@media(max-width:760px){.about-grid{grid-template-columns:1fr;gap:18px}.portrait{max-width:260px;margin:0 auto}}
