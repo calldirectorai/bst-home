@@ -131,3 +131,7 @@ html{scroll-padding-top:8px}
  .trust li+li:before{margin:0 8px}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media(max-width:350px){
+ .brand svg{height:30px}.brand b{font-size:13.5px}.brand span{display:none}
+ .hdr-call{padding:8px 10px;font-size:13.5px}.nav-toggle{width:40px;height:40px}
+}
