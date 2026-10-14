@@ -39,3 +39,30 @@ footer a{color:var(--text)}
 footer p+p{margin-top:6px}
 @media(max-width:860px){.top{flex-wrap:wrap}.nav{order:3;width:100%;overflow-x:auto;white-space:nowrap;gap:16px;padding-bottom:2px}}
 @media(max-width:760px){.grid{grid-template-columns:1fr}.brand b{font-size:18px}.brand svg{height:42px}.btn{padding:11px 16px;font-size:15px}.hero{padding:28px 0 20px}}
+/* ---- inner pages ---- */
+.hero-s{padding:34px 0 22px}
+.hero-s h1{font-size:clamp(28px,4.6vw,42px)}
+.hero-s .lede{max-width:660px}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card h3{font-size:19px}
+.card p b{color:var(--text)}
+.note{max-width:760px;margin:12px auto 0;text-align:center;color:var(--mute);font-size:14px}
+.check{list-style:none;padding:0;columns:2;column-gap:24px;max-width:760px;margin:0 auto}
+.check li{padding:6px 0 6px 26px;position:relative;color:var(--text);font-size:15.5px;break-inside:avoid}
+.check li:before{content:"";position:absolute;left:2px;top:13px;width:10px;height:10px;border-radius:50%;background:var(--gold)}
+.story{max-width:720px;margin:0 auto;color:var(--text);font-size:17px}
+.story p+p{margin-top:12px}
+.faq{max-width:780px;margin:0 auto}
+details{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:10px;padding:0 16px;margin-bottom:10px}
+summary{cursor:pointer;padding:14px 0;font-weight:700;font-size:17px;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"+";float:right;color:var(--gold);font-size:22px;line-height:1}
+details[open] summary:after{content:"\2212"}
+details p{color:var(--mute);padding:0 0 14px;font-size:15.5px}
+.cols{display:grid;grid-template-columns:1fr 1.2fr;gap:20px;align-items:start}
+.cols .card{padding:20px}
+.cols .card p{margin-bottom:10px;font-size:15.5px}
+.cols .card .btn{margin-top:4px}
+@media(max-width:900px){.g4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:860px){.cols{grid-template-columns:1fr}}
+@media(max-width:760px){.g4{grid-template-columns:1fr}.check{columns:1}.hero-s{padding:24px 0 16px}}

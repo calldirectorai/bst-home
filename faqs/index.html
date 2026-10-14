@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<base href="/bst-home/">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FAQs | Bright Seal Tax</title>
+<meta name="description" content="Answers to common questions about Bright Seal Tax: pricing, what to bring, virtual filing, credit coaching, mobile notary and hours.">
+<meta property="og:title" content="FAQs | Bright Seal Tax">
+<meta property="og:description" content="Answers to common questions about Bright Seal Tax: pricing, what to bring, virtual filing, credit coaching, mobile notary and hours.">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header><div class="wrap top">
+<a class="brand" href="/bst-home/" aria-label="Bright Seal Tax">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 64" aria-hidden="true"><defs><linearGradient id="n" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4C86C6"/><stop offset="1" stop-color="#1F4469"/></linearGradient><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F2D06B"/><stop offset="1" stop-color="#C8921E"/></linearGradient></defs><rect x="30" y="30" width="8" height="20" rx="1.5" fill="url(#n)"/><rect x="41" y="19" width="8" height="31" rx="1.5" fill="url(#n)"/><rect x="52" y="8" width="8" height="42" rx="1.5" fill="url(#n)"/><path d="M10 48 Q27 43 36 49 Q45 43 66 48 L66 53 Q45 48 36 55 Q27 48 10 53 Z" fill="url(#g)"/><path d="M10 42 C4 24 16 9 36 7" fill="none" stroke="url(#g)" stroke-width="3.6" stroke-linecap="round"/><path d="M33 1.5 L45 7.5 L33.5 14 Z" fill="url(#g)"/><circle cx="25" cy="35" r="7" fill="url(#g)"/><text x="25" y="39" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="11" fill="#14100A">$</text></svg>
+<div><b>BRIGHT SEAL TAX</b><span>TAX SERVICES</span></div></a>
+<nav class="nav" aria-label="Main"><a href="/bst-home/">Home</a><a href="/bst-home/tax-preparation/">Tax Preparation</a><a href="/bst-home/credit-coaching/">Credit Coaching</a><a href="/bst-home/mobile-notary/">Mobile Notary</a><a href="/bst-home/about/">About</a><a class="on" href="/bst-home/faqs/">FAQs</a><a href="/bst-home/contact/">Contact</a></nav>
+<a class="btn btn-gold" href="tel:+18885117443">Call (888) 511-7443</a>
+</div></header>
+
+<main>
+<section class="hero hero-s"><div class="wrap">
+<h1>Frequently asked <span>questions.</span></h1>
+<p class="lede">Quick answers before you call. Anything missing? Ask us.</p>
+</div></section>
+
+<section class="sec"><div class="wrap faq">
+<details open><summary>How much does tax preparation cost?</summary><p>Individual returns start at $150. Business returns are quoted before any work begins, so you always know the price up front.</p></details>
+<details><summary>What do I need to bring?</summary><p>Typically a photo ID, Social Security numbers for you and your dependents, your W-2s and 1099s, last year's return if you have it, and bank details for direct deposit. Self-employed clients also bring income and expense records. We will confirm your exact list on your call.</p></details>
+<details><summary>Can I file with you without coming in?</summary><p>Yes. We offer virtual filing. We will show you how to share your documents securely, and please do not send Social Security numbers or documents by text or through the website form.</p></details>
+<details><summary>How does credit coaching work?</summary><p>We review your reports from all three bureaus with you, build a personal plan, help you dispute inaccurate items and coach you along the way. We cannot promise a specific score, and you always have the right to dispute errors yourself at no cost.</p></details>
+<details><summary>Where does the mobile notary travel?</summary><p>We come to homes, offices, hospitals and care facilities by appointment, including evenings and weekends. Call or send a request with your location and we will confirm.</p></details>
+<details><summary>What are your hours?</summary><p>Tax season: Monday to Saturday 9 AM to 8 PM and Sunday 10 AM to 5 PM. Off-season: Monday to Friday 9 AM to 6 PM. Notary visits are by appointment, evenings and weekends.</p></details>
+<details><summary>How fast will I hear back?</summary><p>Send a request any time and we will call or text you back. Most consultation calls take about 15 minutes.</p></details>
+</div></section>
+
+<section class="sec" id="start"><div class="wrap">
+<h2>Still have a question?</h2>
+<p class="sub">Tell us what you need and we will call or text you back.</p>
+<div class="formbox">
+<a class="btn btn-gold" href="#" id="openForm" aria-expanded="false" aria-controls="formPanel" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%">
+<span id="openFormLabel">Request my free consultation</span>
+<span id="chev" aria-hidden="true" style="display:inline-block;transition:transform .2s ease">▾</span>
+</a>
+<div id="formPanel" style="display:none;margin-top:14px"></div>
+<p style="margin-top:10px;text-align:center;color:var(--mute);font-size:14px"><a href="tel:+18885117443">Prefer to talk? Call (888) 511-7443</a></p>
+</div>
+</div></section>
+</main>
+<script>
+(function(){
+  const start = document.getElementById('start');
+  const btn = document.getElementById('openForm');
+  const label = document.getElementById('openFormLabel');
+  const panel = document.getElementById('formPanel');
+  const chev = document.getElementById('chev');
+  let loaded = false;
+  let thanksTimer = null;
+  let thanksResetTimer = null;
+  let human = false;
+  let pageLoadTime = Date.now();
+  let openTimer = null;
+  let pendingScroll = false;
+  const isBot = navigator.webdriver === true;
+
+  function showThanks(){
+    let thanks = document.getElementById('formThanks');
+    if (!thanks) {
+      thanks = document.createElement('p');
+      thanks.id = 'formThanks';
+      thanks.setAttribute('role', 'status');
+      thanks.style.marginTop = '10px';
+      thanks.style.textAlign = 'center';
+      thanks.style.color = 'var(--gold)';
+      thanks.style.fontSize = '15px';
+      thanks.textContent = 'Thank you. We received your request and will call or text you shortly.';
+      btn.insertAdjacentElement('afterend', thanks);
+    } else {
+      thanks.style.display = 'block';
+    }
+  }
+
+  function hideThanks(){
+    const thanks = document.getElementById('formThanks');
+    if (thanks) thanks.style.display = 'none';
+  }
+
+  function loadForm(){
+    if (loaded || isBot) return;
+    loaded = true;
+    const s = document.createElement('script');
+    s.src = 'https://app.calldirector.ai/forms-embed.js';
+    s.async = true;
+    s.setAttribute('data-form','alcrtsck');
+    s.setAttribute('data-theme','dark');
+    s.setAttribute('data-accent','#D4A62A');
+    s.setAttribute('data-bg','#0A0C10');
+    s.setAttribute('data-surface','#111721');
+    s.setAttribute('data-field','#1A2332');
+    s.setAttribute('data-text','#E8ECF2');
+    s.setAttribute('data-gradient','0');
+    panel.appendChild(s);
+  }
+
+  function setOneMoment(ms){
+    clearTimeout(openTimer);
+    label.textContent = 'One moment...';
+    openTimer = setTimeout(function(){
+      openTimer = null;
+      label.textContent = 'Hide the form';
+      loadForm();
+      if (pendingScroll) start.scrollIntoView({behavior:'smooth', block:'start'});
+      pendingScroll = false;
+    }, ms);
+  }
+
+  function openPanel(scroll){
+    panel.style.display = 'block';
+    btn.setAttribute('aria-expanded','true');
+    chev.style.transform = 'rotate(180deg)';
+
+    if (isBot) {
+      label.textContent = 'Please call (888) 511-7443';
+      panel.style.display = 'none';
+      btn.setAttribute('aria-expanded','false');
+      chev.style.transform = 'rotate(0deg)';
+      return;
+    }
+
+    const elapsed = Date.now() - pageLoadTime;
+    const wait = Math.max(0, 3000 - elapsed);
+
+    if (!human) {
+      label.textContent = 'Please call (888) 511-7443';
+      panel.style.display = 'none';
+      btn.setAttribute('aria-expanded','false');
+      chev.style.transform = 'rotate(0deg)';
+      return;
+    }
+
+    if (wait > 0) {
+      pendingScroll = pendingScroll || !!scroll;
+      setOneMoment(wait);
+      return;
+    }
+
+    clearTimeout(openTimer);
+    label.textContent = 'Hide the form';
+    loadForm();
+    if (scroll) start.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  function closePanel(){
+    panel.style.display = 'none';
+    btn.setAttribute('aria-expanded','false');
+    label.textContent = 'Request my free consultation';
+    chev.style.transform = 'rotate(0deg)';
+    clearTimeout(openTimer);
+    pendingScroll = false;
+  }
+
+  function markHuman(e){
+    if (e && e.isTrusted) human = true;
+  }
+
+  document.addEventListener('pointerdown', markHuman, {capture:true});
+  document.addEventListener('touchstart', markHuman, {capture:true});
+  document.addEventListener('keydown', markHuman, {capture:true});
+
+  btn.addEventListener('click', function(e){
+    e.preventDefault();
+    if (btn.getAttribute('aria-expanded') === 'true') closePanel();
+    else openPanel(true);
+  });
+
+  document.querySelectorAll('a[href="#start"]').forEach(function(link){
+    link.addEventListener('click', function(e){
+      e.preventDefault();
+      openPanel(true);
+    });
+  });
+
+  window.addEventListener('paymegpt-form:submitted', function(){
+    clearTimeout(thanksTimer);
+    clearTimeout(thanksResetTimer);
+    thanksTimer = setTimeout(function(){
+      closePanel();
+      panel.innerHTML = '';
+      loaded = false;
+      label.textContent = 'Request received. Thank you!';
+      showThanks();
+      start.scrollIntoView({behavior:'smooth', block:'start'});
+      thanksResetTimer = setTimeout(function(){
+        label.textContent = 'Request my free consultation';
+        hideThanks();
+      }, 12000);
+    }, 3500);
+  });
+
+  if (location.hash === '#start') {
+    window.requestAnimationFrame(function(){ start.scrollIntoView({behavior:'auto', block:'start'}); });
+  }
+})();
+</script>
+
+<footer><div class="wrap">
+<p><a href="/bst-home/tax-preparation/">Tax Preparation</a> &nbsp;|&nbsp; <a href="/bst-home/credit-coaching/">Credit Coaching</a> &nbsp;|&nbsp; <a href="/bst-home/mobile-notary/">Mobile Notary</a> &nbsp;|&nbsp; <a href="/bst-home/about/">About</a> &nbsp;|&nbsp; <a href="/bst-home/faqs/">FAQs</a> &nbsp;|&nbsp; <a href="/bst-home/contact/">Contact</a></p>
+<p><a href="tel:+18885117443">(888) 511-7443</a> &nbsp;|&nbsp; <a href="mailto:yolandeosab@brightsealtax.com">yolandeosab@brightsealtax.com</a></p>
+<p>Please do not send Social Security numbers or tax documents by text or through this form. We will tell you how to share them securely.</p>
+<p>&copy; 2026 Bright Seal Tax. Website by CallDirector AI.</p>
+</div></footer>
+</body>
+</html>
