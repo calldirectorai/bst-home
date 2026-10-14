@@ -120,6 +120,21 @@ h2{font-size:clamp(28px,4.4vw,42px);line-height:1.08;letter-spacing:-.8px;margin
 @media(max-width:420px){.greet{right:12px;max-width:220px}}
 #calFrame iframe{width:100%;min-height:720px;border:0;border-radius:14px;background:#fff}
 .social a.sel{border-color:var(--gold);background:rgba(212,166,42,.12)}
+.bk{text-align:left}
+.bk h3{font-size:18px;margin:2px 0 4px}
+.bk .hint{color:var(--mute);font-size:14px;margin-bottom:10px}
+.bk-days{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:10px}
+.bk-days button,.bk-times button{font:inherit;font-weight:700;cursor:pointer;color:var(--text);background:#1A2332;border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-height:44px;white-space:nowrap}
+.bk-days button:hover,.bk-times button:hover{border-color:var(--gold)}
+.bk-days button.sel,.bk-times button.sel{border-color:var(--gold);background:rgba(212,166,42,.16);color:var(--gold2)}
+.bk-times{display:grid;grid-template-columns:repeat(auto-fill,minmax(98px,1fr));gap:8px;margin-bottom:14px}
+.bk label{display:block;font-size:14px;font-weight:700;margin:12px 0 5px;color:#c5cedb}
+.bk input[type=text],.bk input[type=email],.bk input[type=tel]{width:100%;font:inherit;color:var(--text);background:#1A2332;border:1px solid var(--line);border-radius:10px;padding:12px;min-height:46px}
+.bk input:focus{outline:3px solid var(--gold2);outline-offset:1px}
+.bk .hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.bk .err{color:#ff9d9d;font-size:14px;margin-top:10px}
+.bk .ok{text-align:center;padding:12px 4px}
+.bk .ok b{display:block;color:var(--gold2);font-size:20px;margin-bottom:6px}
 footer{border-top:1px solid var(--line);margin-top:26px;padding:22px 0 80px;color:var(--mute);font-size:14px;text-align:center}
 footer p{margin:6px 0}
 footer a{text-decoration:none;color:#c5cedb}
@@ -378,18 +393,59 @@ footer a:hover{color:var(--gold2)}
 </script>
 <script>
 (function(){
-  var btn=document.getElementById('openCal'),lab=document.getElementById('openCalLabel'),panel=document.getElementById('calPanel'),frame=document.getElementById('calFrame'),chev=document.getElementById('calChev'),start=document.getElementById('start');
-  var idle=null,human=false,t0=Date.now(),isBot=navigator.webdriver===true,cur=null,timer=null;
-  var DEF='Pick a time';
+  var btn=document.getElementById('openCal'),lab=document.getElementById('openCalLabel'),panel=document.getElementById('calPanel'),root=document.getElementById('calFrame'),chev=document.getElementById('calChev'),start=document.getElementById('start');
+  var API='https://app.calldirector.ai/api/book/';
+  var idle=null,human=false,t0=Date.now(),isBot=navigator.webdriver===true,cur=null,timer=null,resetT=null,DEF='Pick a time';
   function mark(e){if(e&&e.isTrusted)human=true}
   ['pointerdown','touchstart','keydown'].forEach(function(n){document.addEventListener(n,mark,{capture:true})});
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+  function ymd(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+  function setTabs(slug){document.getElementById('tabC').classList.toggle('sel',slug==='free-consultation');document.getElementById('tabN').classList.toggle('sel',slug==='mobile-notary')}
+  function collapse(){clearTimeout(timer);clearTimeout(resetT);clearTimeout(idle);panel.style.display='none';btn.setAttribute('aria-expanded','false');chev.style.transform='';lab.textContent=DEF;root.innerHTML='';cur=null}
   function show(slug){
-    cur=slug;frame.innerHTML='';
-    var f=document.createElement('iframe');f.src='https://app.calldirector.ai/book/'+slug;f.title=slug==='mobile-notary'?'Book a mobile notary visit':'Book a free consultation';f.loading='lazy';frame.appendChild(f);clearTimeout(idle);idle=setTimeout(collapse,600000);
-    document.getElementById('tabC').classList.toggle('sel',slug==='free-consultation');
-    document.getElementById('tabN').classList.toggle('sel',slug==='mobile-notary');
+    cur=slug;setTabs(slug);clearTimeout(idle);idle=setTimeout(collapse,600000);
+    root.innerHTML='<div class="bk"><p class="hint">Loading open times...</p></div>';
+    var from=new Date(),to=new Date(Date.now()+21*864e5);
+    Promise.all([
+      fetch(API+slug).then(function(r){if(!r.ok)throw 0;return r.json()}),
+      fetch(API+slug+'/availability?from='+ymd(from)+'&to='+ymd(to)).then(function(r){if(!r.ok)throw 0;return r.json()})
+    ]).then(function(res){if(cur!==slug)return;render(slug,res[0],res[1])}).catch(function(){
+      root.innerHTML='<div class="bk"><p class="err">We could not load the calendar. Please call (888) 561-7443.</p></div>';
+    });
   }
-  function collapse(){panel.style.display='none';btn.setAttribute('aria-expanded','false');chev.style.transform='';lab.textContent=DEF;frame.innerHTML='';cur=null;clearTimeout(timer)}
+  function render(slug,cfg,av){
+    var byDay={};
+    Object.keys(av.days||{}).forEach(function(k){(av.days[k]||[]).forEach(function(iso){var d=new Date(iso);if(d.getTime()<Date.now())return;var key=ymd(d);(byDay[key]=byDay[key]||[]).push(iso)})});
+    var keys=Object.keys(byDay).sort();
+    if(!keys.length){root.innerHTML='<div class="bk"><p class="hint">No open times in the next few weeks. Please call (888) 561-7443.</p></div>';return}
+    var sel={day:keys[0],iso:null};
+    var qs=(cfg.customQuestions||[]);
+    var tz=Intl.DateTimeFormat().resolvedOptions().timeZone||'';
+    root.innerHTML='<div class="bk"><h3>'+esc(cfg.title)+'</h3><p class="hint">'+esc(cfg.durationMinutes)+' minutes. Times shown in your time zone'+(tz?' ('+esc(tz.replace('_',' '))+')':'')+'.</p><div class="bk-days" id="bkDays" role="group" aria-label="Choose a day"></div><div class="bk-times" id="bkTimes" role="group" aria-label="Choose a time"></div><form id="bkForm" style="display:none" novalidate><label for="bkName">Your name</label><input type="text" id="bkName" autocomplete="name" required><label for="bkEmail">Email</label><input type="email" id="bkEmail" autocomplete="email" required>'+qs.map(function(q,i){return '<label for="bkQ'+i+'">'+esc(q.label)+(q.required?'':' (optional)')+'</label><input type="'+(/phone/i.test(q.label)?'tel':'text')+'" id="bkQ'+i+'" data-key="'+esc(q.key)+'" '+(q.required?'required ':'')+(/phone/i.test(q.label)?'autocomplete="tel"':'')+'>'}).join('')+'<input class="hp" type="text" id="bkHp" tabindex="-1" autocomplete="off" aria-hidden="true"><p class="err" id="bkErr" role="alert"></p><button type="submit" class="btn btn-gold" id="bkGo" style="width:100%;margin-top:14px">Confirm my time</button><p class="privacy">Please do not enter Social Security numbers or bank details.</p></form></div>';
+    var daysEl=document.getElementById('bkDays'),timesEl=document.getElementById('bkTimes'),form=document.getElementById('bkForm'),errEl=document.getElementById('bkErr');
+    function fmtDay(k){var p=k.split('-');return new Date(+p[0],+p[1]-1,+p[2]).toLocaleDateString(undefined,{weekday:'short',month:'short',day:'numeric'})}
+    function fmtTime(iso){return new Date(iso).toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'})}
+    function drawDays(){daysEl.innerHTML='';keys.forEach(function(k){var b=document.createElement('button');b.type='button';b.textContent=fmtDay(k);if(k===sel.day)b.className='sel';b.onclick=function(){sel.day=k;sel.iso=null;form.style.display='none';drawDays();drawTimes()};daysEl.appendChild(b)})}
+    function drawTimes(){timesEl.innerHTML='';byDay[sel.day].sort().forEach(function(iso){var b=document.createElement('button');b.type='button';b.textContent=fmtTime(iso);if(iso===sel.iso)b.className='sel';b.onclick=function(){sel.iso=iso;drawTimes();form.style.display='block';form.scrollIntoView({behavior:'smooth',block:'nearest'})};timesEl.appendChild(b)})}
+    drawDays();drawTimes();
+    form.addEventListener('submit',function(e){
+      e.preventDefault();errEl.textContent='';
+      if(document.getElementById('bkHp').value){return}
+      var name=document.getElementById('bkName').value.trim(),email=document.getElementById('bkEmail').value.trim(),ans={},bad=false;
+      if(!sel.iso){errEl.textContent='Please choose a time first.';return}
+      if(!name||!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){errEl.textContent='Please enter your name and a valid email.';return}
+      qs.forEach(function(q,i){var v=document.getElementById('bkQ'+i).value.trim();if(q.required&&!v)bad=true;ans[q.key]=v});
+      if(bad){errEl.textContent='Please fill in every required field.';return}
+      var go=document.getElementById('bkGo');go.disabled=true;go.textContent='Booking...';
+      fetch(API+slug+'/book',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:name,email:email,startTime:sel.iso,answers:ans,locationType:'none'})})
+       .then(function(r){return r.json().then(function(j){return {ok:r.ok,j:j}})})
+       .then(function(r){
+         if(!r.ok||(r.j&&r.j.error)){throw new Error((r.j&&r.j.error)||'fail')}
+         root.innerHTML='<div class="bk"><div class="ok" role="status"><b>You\'re booked!</b><p>'+esc(cfg.confirmationMessage||'We will talk soon.')+'</p><p style="margin-top:8px;color:var(--gold2);font-weight:700">'+esc(fmtDay(sel.day))+' at '+esc(fmtTime(sel.iso))+'</p></div></div>';
+         clearTimeout(resetT);resetT=setTimeout(function(){collapse();lab.textContent='Booked. Thank you!';setTimeout(function(){lab.textContent=DEF},8000);btn.scrollIntoView({behavior:'smooth',block:'center'})},6000);
+       }).catch(function(){go.disabled=false;go.textContent='Confirm my time';errEl.textContent='That time may have just been taken, or something went wrong. Please pick another time or call (888) 561-7443.'});
+    });
+  }
   function open(slug,scroll){
     if(isBot||!human){lab.textContent='Please call (888) 561-7443';return}
     var wait=Math.max(0,3000-(Date.now()-t0));
@@ -400,7 +456,6 @@ footer a:hover{color:var(--gold2)}
   document.getElementById('calDone').addEventListener('click',function(e){e.preventDefault();collapse();btn.scrollIntoView({behavior:'smooth',block:'center'})});
   panel.querySelectorAll('[data-cal]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();show(a.getAttribute('data-cal'))})});
   document.querySelectorAll('[data-book]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();mark(e);open(a.getAttribute('data-book'),true)})});
-  window.addEventListener('message',function(e){if(e.origin==='https://app.calldirector.ai'&&e.data&&/book(ed|ing).*(success|confirm)|booking_confirmed/i.test(JSON.stringify(e.data))){setTimeout(collapse,6000)}});
 })();
 </script>
 <div class="greet" id="greet" role="status" aria-live="polite"><button type="button" id="greetX" aria-label="Dismiss">&times;</button><b>Hi, I'm Yolande's assistant.</b><br>Nervous about taxes or credit? Ask me anything, no judgment.</div>
