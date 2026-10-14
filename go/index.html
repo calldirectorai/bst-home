@@ -118,6 +118,8 @@ h2{font-size:clamp(28px,4.4vw,42px);line-height:1.08;letter-spacing:-.8px;margin
 .greet b{color:var(--gold2)}
 .greet button{position:absolute;top:4px;right:6px;width:28px;height:28px;border:0;background:transparent;color:var(--mute);font-size:20px;line-height:1;cursor:pointer}
 @media(max-width:420px){.greet{right:12px;max-width:220px}}
+#calFrame iframe{width:100%;min-height:720px;border:0;border-radius:14px;background:#fff}
+.social a.sel{border-color:var(--gold);background:rgba(212,166,42,.12)}
 footer{border-top:1px solid var(--line);margin-top:26px;padding:22px 0 80px;color:var(--mute);font-size:14px;text-align:center}
 footer p{margin:6px 0}
 footer a{text-decoration:none;color:#c5cedb}
@@ -194,7 +196,7 @@ footer a:hover{color:var(--gold2)}
    <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="5"/><path d="M9 14l-2 7 5-3 5 3-2-7"/></svg></div>
    <h3>Mobile notary</h3>
    <p>We come to your home, office or care facility, evenings and weekends by appointment. Bring valid photo ID and we handle the rest.</p>
-   <a class="more" href="https://calldirectorai.github.io/bst-home/mobile-notary/">See notary services &rarr;</a>
+   <a class="more" href="https://calldirectorai.github.io/bst-home/mobile-notary/">See notary services &rarr;</a> &nbsp; <a class="more" href="#book-notary" data-book="mobile-notary">Book a visit &rarr;</a>
   </article>
  </div>
 </div></section>
@@ -247,6 +249,14 @@ footer a:hover{color:var(--gold2)}
   <div id="formPanel"></div>
   <p style="margin-top:12px;color:var(--mute);font-size:14.5px"><a href="tel:+18885617443" style="color:var(--gold2)">Prefer to talk? Call (888) 561-7443</a></p>
   <p class="privacy">Please do not enter Social Security numbers, bank details or tax documents here. We will show you how to share them securely.</p>
+  <div style="border-top:1px solid var(--line);margin-top:18px;padding-top:16px">
+   <p style="color:#c5cedb;margin-bottom:10px">Rather pick your own time?</p>
+   <a class="btn btn-line" href="#" id="openCal" aria-expanded="false" aria-controls="calPanel"><span id="openCalLabel">Pick a time</span> <span id="calChev" aria-hidden="true" style="display:inline-block;transition:transform .2s ease">&#9662;</span></a>
+   <div id="calPanel" style="display:none;margin-top:14px">
+    <div class="social" style="margin:0 0 12px"><a href="#" data-cal="free-consultation" id="tabC">Free consultation</a><a href="#" data-cal="mobile-notary" id="tabN">Mobile notary visit</a></div>
+    <div id="calFrame"></div>
+   </div>
+  </div>
   <p class="privacy">Text messages are optional. See our <a href="https://calldirectorai.github.io/bst-home/sms-terms/">SMS Terms</a> and <a href="https://calldirectorai.github.io/bst-home/privacy/">Privacy Policy</a>.</p>
  </div>
 </div></section>
@@ -363,6 +373,32 @@ footer a:hover{color:var(--gold2)}
     },3500);
   });
   if(location.hash==='#start'){requestAnimationFrame(function(){start.scrollIntoView({behavior:'auto',block:'start'});});}
+})();
+</script>
+<script>
+(function(){
+  var btn=document.getElementById('openCal'),lab=document.getElementById('openCalLabel'),panel=document.getElementById('calPanel'),frame=document.getElementById('calFrame'),chev=document.getElementById('calChev'),start=document.getElementById('start');
+  var human=false,t0=Date.now(),isBot=navigator.webdriver===true,cur=null,timer=null;
+  var DEF='Pick a time';
+  function mark(e){if(e&&e.isTrusted)human=true}
+  ['pointerdown','touchstart','keydown'].forEach(function(n){document.addEventListener(n,mark,{capture:true})});
+  function show(slug){
+    cur=slug;frame.innerHTML='';
+    var f=document.createElement('iframe');f.src='https://app.calldirector.ai/book/'+slug;f.title=slug==='mobile-notary'?'Book a mobile notary visit':'Book a free consultation';f.loading='lazy';frame.appendChild(f);
+    document.getElementById('tabC').classList.toggle('sel',slug==='free-consultation');
+    document.getElementById('tabN').classList.toggle('sel',slug==='mobile-notary');
+  }
+  function collapse(){panel.style.display='none';btn.setAttribute('aria-expanded','false');chev.style.transform='';lab.textContent=DEF;frame.innerHTML='';cur=null;clearTimeout(timer)}
+  function open(slug,scroll){
+    if(isBot||!human){lab.textContent='Please call (888) 561-7443';return}
+    var wait=Math.max(0,3000-(Date.now()-t0));
+    function go(){panel.style.display='block';btn.setAttribute('aria-expanded','true');chev.style.transform='rotate(180deg)';lab.textContent='Hide the calendar';show(slug||'free-consultation');if(scroll)start.scrollIntoView({behavior:'smooth',block:'start'})}
+    if(wait>0){lab.textContent='One moment...';clearTimeout(timer);timer=setTimeout(go,wait)}else go();
+  }
+  btn.addEventListener('click',function(e){e.preventDefault();if(btn.getAttribute('aria-expanded')==='true')collapse();else open('free-consultation',false)});
+  panel.querySelectorAll('[data-cal]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();show(a.getAttribute('data-cal'))})});
+  document.querySelectorAll('[data-book]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();mark(e);open(a.getAttribute('data-book'),true)})});
+  window.addEventListener('message',function(e){if(e.origin==='https://app.calldirector.ai'&&e.data&&/book(ed|ing).*(success|confirm)|booking_confirmed/i.test(JSON.stringify(e.data))){setTimeout(collapse,6000)}});
 })();
 </script>
 <div class="greet" id="greet" role="status" aria-live="polite"><button type="button" id="greetX" aria-label="Dismiss">&times;</button><b>Hi, I'm Yolande's assistant.</b><br>Nervous about taxes or credit? Ask me anything, no judgment.</div>
