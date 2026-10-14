@@ -135,3 +135,8 @@ html{scroll-padding-top:8px}
  .brand svg{height:30px}.brand b{font-size:13.5px}.brand span{display:none}
  .hdr-call{padding:8px 10px;font-size:13.5px}.nav-toggle{width:40px;height:40px}
 }
+.legal{max-width:760px;font-size:16px;color:var(--mute)}
+.legal h2{text-align:left;font-size:20px;color:var(--text);margin:22px 0 6px}
+.legal p+p{margin-top:10px}
+.legal a{color:var(--gold)}
+.privacy a{color:var(--gold)}

@@ -29,4 +29,12 @@
     <loc>https://calldirectorai.github.io/bst-home/contact/</loc>
     <changefreq>monthly</changefreq>
   </url>
+  <url>
+    <loc>https://calldirectorai.github.io/bst-home/privacy/</loc>
+    <changefreq>yearly</changefreq>
+  </url>
+  <url>
+    <loc>https://calldirectorai.github.io/bst-home/sms-terms/</loc>
+    <changefreq>yearly</changefreq>
+  </url>
 </urlset>
