@@ -24,62 +24,48 @@ a{color:inherit}
 
 /* aurora */
 .aurora{position:fixed;inset:0;z-index:-1;overflow:hidden;background:radial-gradient(1200px 700px at 50% -10%,#101a2b 0%,var(--bg) 60%)}
-.aurora i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;will-change:transform}
-.aurora i:nth-child(1){width:520px;height:520px;left:-120px;top:-80px;background:#2F5D8F;animation:f1 18s ease-in-out infinite alternate}
-.aurora i:nth-child(2){width:460px;height:460px;right:-140px;top:120px;background:#D4A62A;opacity:.28;animation:f2 22s ease-in-out infinite alternate}
-.aurora i:nth-child(3){width:420px;height:420px;left:30%;bottom:-160px;background:#1d3b66;animation:f3 26s ease-in-out infinite alternate}
-.aurora:after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);background-size:26px 26px;mask-image:linear-gradient(#000 0%,transparent 70%)}
-@keyframes f1{to{transform:translate(160px,120px) scale(1.15)}}
-@keyframes f2{to{transform:translate(-180px,100px) scale(.9)}}
-@keyframes f3{to{transform:translate(120px,-90px) scale(1.2)}}
+.aurora i{position:absolute;border-radius:50%;filter:blur(110px);opacity:.28}
+.aurora i:nth-child(1){width:520px;height:520px;left:-120px;top:-80px;background:#2F5D8F;}
+.aurora i:nth-child(2){width:460px;height:460px;right:-140px;top:120px;background:#D4A62A;opacity:.28;}
+.aurora i:nth-child(3){width:420px;height:420px;left:30%;bottom:-160px;background:#1d3b66;}
+.aurora:after{opacity:.5;content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);background-size:26px 26px;mask-image:linear-gradient(#000 0%,transparent 70%)}
 
 /* header */
 header{padding:14px 0}
 .hd{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;letter-spacing:.2px}
-.brand svg{width:38px;height:38px;flex:none}
-.brand b{font-size:17px;line-height:1.05}
-.brand b span{display:block;font-size:10.5px;font-weight:600;letter-spacing:2.4px;color:var(--sky);text-transform:uppercase}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;line-height:1.1}
+.brand svg{height:52px;width:auto;display:block}
+.brand b{display:block;font-size:21px;font-weight:900;letter-spacing:.04em;color:#6F9BCF;white-space:nowrap}
+.brand span{display:block;font-size:10.5px;letter-spacing:.34em;color:var(--gold);border-top:1.5px solid var(--gold);margin-top:3px;padding-top:3px;text-align:center;white-space:nowrap}
 .callpill{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;font-size:14px;padding:9px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(17,23,33,.7);backdrop-filter:blur(8px)}
 .callpill:hover{border-color:var(--gold)}
-.dot{width:8px;height:8px;border-radius:50%;background:#3ddc84;box-shadow:0 0 0 0 rgba(61,220,132,.7);animation:pulse 2s infinite}
-@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(61,220,132,0)}100%{box-shadow:0 0 0 0 rgba(61,220,132,0)}}
+.dot{width:8px;height:8px;border-radius:50%;background:#3ddc84}
 
 /* hero */
 .hero{padding:22px 0 26px}
 .hgrid{display:grid;grid-template-columns:1.15fr .85fr;gap:34px;align-items:center}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);border:1px solid rgba(212,166,42,.4);background:rgba(212,166,42,.08);padding:6px 12px;border-radius:999px}
 h1{font-size:clamp(38px,6.6vw,70px);line-height:1.02;letter-spacing:-1.5px;margin:16px 0 14px;font-weight:850}
-h1 .g{background:linear-gradient(100deg,var(--gold2),var(--gold) 45%,#fff3c4 60%,var(--gold));background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
-@keyframes shine{to{background-position:-220% 0}}
+h1 .g{color:var(--gold)}
 .lead{font-size:clamp(17px,2.2vw,20px);color:#c5cedb;max-width:560px}
 .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font:inherit;font-weight:800;font-size:17px;text-decoration:none;cursor:pointer;border:0;border-radius:14px;padding:16px 24px;min-height:52px;transition:transform .15s,box-shadow .2s}
-.btn-gold{color:#14100a;background:linear-gradient(180deg,var(--gold2),var(--gold));box-shadow:0 10px 30px -8px rgba(212,166,42,.65),inset 0 1px 0 rgba(255,255,255,.5);position:relative;overflow:hidden}
-.btn-gold:after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);animation:sweep 3.8s ease-in-out infinite}
-@keyframes sweep{0%,55%{left:-60%}100%{left:130%}}
-.btn-gold:hover{transform:translateY(-2px);box-shadow:0 16px 36px -8px rgba(212,166,42,.8),inset 0 1px 0 rgba(255,255,255,.5)}
+.btn-gold{color:#14100a;background:linear-gradient(180deg,var(--gold2),var(--gold));box-shadow:none}
+.btn-gold:hover{filter:brightness(1.06)}
 .btn-line{color:var(--text);border:1px solid var(--line);background:rgba(17,23,33,.6);backdrop-filter:blur(8px)}
-.btn-line:hover{border-color:var(--sky);transform:translateY(-2px)}
+.btn-line:hover{border-color:var(--sky)}
 .micro{margin-top:12px;color:var(--mute);font-size:14px}
 .trust{list-style:none;display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:18px;color:#c5cedb;font-size:14.5px}
 .trust li:before{content:"\2713";color:var(--gold);font-weight:900;margin-right:7px}
 
 /* portrait card */
-.pcard{position:relative;border-radius:26px;padding:10px;background:linear-gradient(145deg,rgba(212,166,42,.8),rgba(47,93,143,.8) 55%,rgba(212,166,42,.3));transform-style:preserve-3d;transition:transform .2s;box-shadow:0 40px 80px -30px rgba(0,0,0,.8),0 0 70px -20px rgba(212,166,42,.35)}
+.pcard{position:relative;border-radius:26px;padding:10px;background:linear-gradient(145deg,rgba(212,166,42,.8),rgba(47,93,143,.8) 55%,rgba(212,166,42,.3));box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
 .pcard .in{position:relative;border-radius:18px;overflow:hidden;background:var(--card)}
 .pcard img{display:block;width:100%;aspect-ratio:4/4.6;object-fit:cover;object-position:50% 18%}
 .pcard .cap{position:absolute;left:0;right:0;bottom:0;padding:44px 16px 14px;background:linear-gradient(transparent,rgba(10,12,16,.92))}
 .pcard .cap b{display:block;font-size:19px}
 .pcard .cap span{font-size:13.5px;color:var(--gold2)}
-.badge{position:absolute;right:-8px;top:-14px;background:var(--card);border:1px solid var(--gold);color:var(--gold2);font-weight:800;font-size:12.5px;padding:8px 12px;border-radius:12px;box-shadow:0 10px 30px -10px #000;animation:bob 4s ease-in-out infinite;z-index:2}
-@keyframes bob{50%{transform:translateY(-6px)}}
-
-/* ticker */
-.ticker{border-block:1px solid var(--line);background:rgba(17,23,33,.55);overflow:hidden;margin:6px 0}
-.tk{display:flex;gap:44px;width:max-content;padding:11px 0;animation:tick 32s linear infinite;color:var(--mute);font-weight:700;font-size:13.5px;letter-spacing:1.6px;text-transform:uppercase}
-.tk span:before{content:"\25C6";color:var(--gold);margin-right:44px}
-@keyframes tick{to{transform:translateX(-50%)}}
+.badge{position:absolute;right:-8px;top:-14px;background:var(--card);border:1px solid var(--gold);color:var(--gold2);font-weight:800;font-size:12.5px;padding:8px 12px;border-radius:12px;box-shadow:0 10px 30px -10px #000;z-index:2}
 
 /* sections */
 section.sec{padding:34px 0}
@@ -87,9 +73,7 @@ h2{font-size:clamp(28px,4.4vw,42px);line-height:1.08;letter-spacing:-.8px;margin
 .sub{color:#b5c0cf;max-width:620px;font-size:17px}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px}
 .card{position:relative;background:linear-gradient(180deg,rgba(23,31,45,.9),rgba(17,23,33,.9));border:1px solid var(--line);border-radius:20px;padding:22px;transition:transform .25s,border-color .25s,box-shadow .25s;overflow:hidden}
-.card:before{content:"";position:absolute;inset:0;background:radial-gradient(400px 160px at var(--mx,50%) -20%,rgba(212,166,42,.16),transparent 70%);opacity:0;transition:opacity .3s}
-.card:hover{transform:translateY(-6px);border-color:rgba(212,166,42,.6);box-shadow:0 24px 50px -24px rgba(212,166,42,.4)}
-.card:hover:before{opacity:1}
+.card:hover{border-color:rgba(212,166,42,.5)}
 .ico{width:50px;height:50px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,rgba(212,166,42,.22),rgba(47,93,143,.25));border:1px solid rgba(212,166,42,.35);margin-bottom:14px}
 .ico svg{width:26px;height:26px;stroke:var(--gold2);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .card h3{font-size:20px;margin-bottom:6px}
@@ -129,8 +113,6 @@ footer a:hover{color:var(--gold2)}
 .bar a{flex:1;min-height:48px;font-size:16px;padding:12px 14px;border-radius:12px}
 
 /* reveal */
-.js .rv{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
-.js .rv.on{opacity:1;transform:none}
 .d1{transition-delay:.08s!important}.d2{transition-delay:.16s!important}
 
 @media(max-width:860px){
@@ -142,7 +124,7 @@ footer a:hover{color:var(--gold2)}
  .step{margin-left:16px}
 }
 @media(max-width:420px){.btn{width:100%}.brand b{font-size:15px}.badge{right:6px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.js .rv{opacity:1;transform:none}html{scroll-behavior:auto}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important}.js .rv{opacity:1;transform:none}html{scroll-behavior:auto}}
 </style>
 <script>document.documentElement.className+=' js'</script>
 </head>
@@ -151,10 +133,9 @@ footer a:hover{color:var(--gold2)}
 <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
 
 <header><div class="wrap hd">
- <a class="brand" href="https://calldirectorai.github.io/bst-home/" aria-label="Bright Seal Tax home">
-  <svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F2D06B"/><stop offset="1" stop-color="#B8860B"/></linearGradient></defs><circle cx="32" cy="32" r="29" fill="#0F1A2B" stroke="url(#g)" stroke-width="3"/><circle cx="32" cy="32" r="22" fill="none" stroke="#2F5D8F" stroke-width="1.5" stroke-dasharray="3 4"><animateTransform attributeName="transform" type="rotate" from="0 32 32" to="360 32 32" dur="30s" repeatCount="indefinite"/></circle><path d="M20 33l8 8 17-18" fill="none" stroke="url(#g)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  <b>Bright Seal<span>Tax</span></b>
- </a>
+ <a class="brand" href="https://calldirectorai.github.io/bst-home/" aria-label="Bright Seal Tax">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 64" aria-hidden="true"><defs><linearGradient id="n" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4C86C6"/><stop offset="1" stop-color="#1F4469"/></linearGradient><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F2D06B"/><stop offset="1" stop-color="#C8921E"/></linearGradient></defs><rect x="30" y="30" width="8" height="20" rx="1.5" fill="url(#n)"/><rect x="41" y="19" width="8" height="31" rx="1.5" fill="url(#n)"/><rect x="52" y="8" width="8" height="42" rx="1.5" fill="url(#n)"/><path d="M10 48 Q27 43 36 49 Q45 43 66 48 L66 53 Q45 48 36 55 Q27 48 10 53 Z" fill="url(#g)"/><path d="M10 42 C4 24 16 9 36 7" fill="none" stroke="url(#g)" stroke-width="3.6" stroke-linecap="round"/><path d="M33 1.5 L45 7.5 L33.5 14 Z" fill="url(#g)"/><circle cx="25" cy="35" r="7" fill="url(#g)"/><text x="25" y="39" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="11" fill="#14100A">$</text></svg>
+<div><b>BRIGHT SEAL TAX</b><span>TAX SERVICES</span></div></a>
  <a class="callpill" href="tel:+18885617443"><span class="dot"></span><span class="long">Call</span> (888) 561-7443</a>
 </div></header>
 
@@ -180,10 +161,6 @@ footer a:hover{color:var(--gold2)}
  </div>
 </div></section>
 
-<div class="ticker" aria-hidden="true"><div class="tk">
- <span>Individual returns</span><span>Business returns</span><span>Credit coaching</span><span>Mobile notary</span><span>Year-round support</span><span>Free consultation</span>
- <span>Individual returns</span><span>Business returns</span><span>Credit coaching</span><span>Mobile notary</span><span>Year-round support</span><span>Free consultation</span>
-</div></div>
 
 <section class="sec"><div class="wrap">
  <h2 class="rv">Everything in one place</h2>
@@ -261,23 +238,6 @@ footer a:hover{color:var(--gold2)}
 
 <div class="bar"><a class="btn btn-line" href="tel:+18885617443">Call now</a><a class="btn btn-gold" href="#start">Free consultation</a></div>
 
-<script>
-/* reveal, tilt, glow */
-(function(){
-  var els=document.querySelectorAll('.rv');
-  if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})},{threshold:.12});
-    els.forEach(function(el){io.observe(el)});
-    setTimeout(function(){els.forEach(function(el){el.classList.add('on')})},2500);
-  } else els.forEach(function(el){el.classList.add('on')});
-  var t=document.getElementById('tilt');
-  if(t&&matchMedia('(hover:hover)').matches){
-    t.addEventListener('pointermove',function(e){var r=t.getBoundingClientRect();var x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;t.style.transform='perspective(900px) rotateY('+(x*10)+'deg) rotateX('+(-y*10)+'deg)'});
-    t.addEventListener('pointerleave',function(){t.style.transform=''});
-  }
-  document.querySelectorAll('.card').forEach(function(c){c.addEventListener('pointermove',function(e){var r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px')})});
-})();
-</script>
 <script>
 (function(){
   const start = document.getElementById('start');
