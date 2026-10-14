@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /approve/
 
 Sitemap: https://brightsealtax.com/sitemap.xml
-Disallow: /approve/
