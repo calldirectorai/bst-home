@@ -101,6 +101,17 @@ h2{font-size:clamp(28px,4.4vw,42px);line-height:1.08;letter-spacing:-.8px;margin
 #formPanel{display:none;margin-top:14px}
 .privacy{margin-top:10px;color:var(--mute);font-size:13.5px;text-align:center}
 .privacy a{color:var(--gold2)}
+.vipchips{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:820px;margin:18px auto 0;text-align:left}
+.vipchips li{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:rgba(17,23,33,.7);font-weight:600;font-size:15px}
+.vipchips li:before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--gold);margin-right:9px;vertical-align:middle}
+.viplesson{max-width:680px;margin:16px auto 0;color:#c5cedb;font-size:15.5px}
+.viplesson b{color:var(--gold2)}
+#vipPanel{display:none;margin-top:14px;text-align:left}
+#vipPanel.open{display:block}
+#vipStatus,#vipThanks{margin-top:10px;color:var(--mute);font-size:15px}
+#vipThanks{color:var(--gold2);font-weight:600}
+@media(max-width:760px){.vipchips{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.vipchips{grid-template-columns:1fr}}
 .center{text-align:center}.center .sub{margin-inline:auto}
 
 
@@ -232,6 +243,25 @@ footer a:hover{color:var(--gold2)}
   <div class="step rv d2"><h3>Get a clear plan</h3><p>You know your next step, the cost and the timeline before you decide anything.</p></div>
  </div>
  <p class="sub" style="margin-top:18px">Behind on filings or worried about a notice? You are not the first, and we will not judge. We start from where you are.</p>
+</div></section>
+
+<section class="sec" id="vip"><div class="wrap center">
+ <span class="eyebrow">New &middot; Free</span>
+ <h2 class="rv" style="margin-top:12px">Free Tax Planning Check-Up</h2>
+ <p class="sub rv d1">Did any of these happen to you this year? Each one may affect your tax return.</p>
+ <ul class="vipchips">
+  <li>Your income increased</li><li>You started a business</li><li>You got married</li>
+  <li>You had a child</li><li>You started working independently</li><li>You received additional income</li>
+ </ul>
+ <p class="viplesson"><b>Tax preparation</b> looks at the information needed to complete your return. <b>Tax planning</b> looks ahead and helps you make informed decisions before you file.</p>
+ <div class="formbox">
+  <button class="btn btn-gold" type="button" id="vipOpen" aria-expanded="false" aria-controls="vipPanel">Join the VIP List</button>
+  <p id="vipStatus" aria-live="polite"></p>
+  <p id="vipThanks" aria-live="polite"></p>
+  <div id="vipPanel"><div id="vipHost"></div></div>
+  <p style="margin-top:12px;color:var(--mute);font-size:14.5px"><a href="https://brightsealtax.com/tax-planning/" style="color:var(--gold2)">What is tax planning? Learn more</a></p>
+  <p class="privacy">For your privacy, this form never asks for your Social Security number or tax documents.</p>
+ </div>
 </div></section>
 
 <section class="sec"><div class="wrap">
@@ -403,6 +433,7 @@ footer a:hover{color:var(--gold2)}
     a.addEventListener('click',function(e){e.preventDefault(); openPanel(true);});
   });
   window.addEventListener('paymegpt-form:submitted',function(){
+    if(!loaded) return;
     clearTimeout(thanksTimer); clearTimeout(thanksResetTimer);
     thanksTimer=setTimeout(function(){
       closePanel(); panel.innerHTML=''; loaded=false;
@@ -480,6 +511,39 @@ footer a:hover{color:var(--gold2)}
   document.getElementById('calDone').addEventListener('click',function(e){e.preventDefault();collapse();btn.scrollIntoView({behavior:'smooth',block:'center'})});
   panel.querySelectorAll('[data-cal]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();show(a.getAttribute('data-cal'))})});
   document.querySelectorAll('[data-book]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();mark(e);open(a.getAttribute('data-book'),true)})});
+})();
+</script>
+<script>
+(function(){
+var t0=Date.now(),loaded=false,loading=false,wait=null,thanksT=null,human=false;
+var btn=document.getElementById('vipOpen'),panel=document.getElementById('vipPanel'),host=document.getElementById('vipHost'),st=document.getElementById('vipStatus'),th=document.getElementById('vipThanks');
+if(!btn)return;
+['pointerdown','touchstart','keydown'].forEach(function(e){document.addEventListener(e,function(ev){if(ev.isTrusted)human=true;},{capture:true,passive:true});});
+function load(){
+ if(loaded||loading)return;
+ if(navigator.webdriver){st.innerHTML='Please call us at <a href="tel:+18885617443">(888) 561-7443</a>.';return;}
+ var left=3000-(Date.now()-t0);
+ if(left>0){st.textContent='One moment...';loading=true;wait=setTimeout(function(){loading=false;wait=null;load();},left);return;}
+ loading=true;st.textContent='';
+ var s=document.createElement('script');s.src='https://app.calldirector.ai/forms-embed.js';s.async=true;
+ [['data-form','zwzt7161'],['data-theme','dark'],['data-accent','#D4A62A'],['data-bg','#111721'],['data-surface','#111721'],['data-field','#1A2332'],['data-text','#E8ECF2'],['data-gradient','0'],['data-source','landing_page_go']].forEach(function(a){s.setAttribute(a[0],a[1]);});
+ host.appendChild(s);loaded=true;loading=false;
+}
+btn.addEventListener('click',function(ev){
+ if(!ev.isTrusted||!human)return;
+ if(panel.classList.contains('open')){panel.classList.remove('open');btn.setAttribute('aria-expanded','false');return;}
+ panel.classList.add('open');btn.setAttribute('aria-expanded','true');th.textContent='';load();
+});
+window.addEventListener('paymegpt-form:submitted',function(){
+ if(!panel.classList.contains('open'))return;
+ setTimeout(function(){
+  panel.classList.remove('open');btn.setAttribute('aria-expanded','false');host.innerHTML='';
+  if(wait){clearTimeout(wait);wait=null;}
+  loaded=false;loading=false;st.textContent='';
+  th.textContent="Thank you! You're on the VIP list.";
+  clearTimeout(thanksT);thanksT=setTimeout(function(){th.textContent='';},12000);
+ },3500);
+});
 })();
 </script>
 <div class="greet" id="greet" role="status" aria-live="polite"><button type="button" id="greetX" aria-label="Dismiss">&times;</button><b>Hi, I'm Yolande's assistant.</b><br>Nervous about taxes or credit? Ask me anything, no judgment.</div>
